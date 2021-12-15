@@ -35,7 +35,7 @@ functions:
     timeout: 30
     events:
       - s3:
-          bucket: ${env:RAW_BUCKET}
+          bucket: data-pipeline-demo-raw
           event: s3:ObjectCreated:Put
           rules:
             - suffix: .json

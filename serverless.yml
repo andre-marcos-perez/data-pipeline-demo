@@ -1,0 +1,47 @@
+service:
+  name: data-pipeline-demo
+provider:
+  name: aws
+  stackName: ${self:service.name}
+  region: sa-east-1
+  runtime: python3.8
+  environment:
+    IS_LOCAL: False
+    TELEGRAM_CHAT_ID: ${env:TELEGRAM_CHAT_ID}
+    TELEGRAM_ACCESS_TOKEN: ${env:TELEGRAM_ACCESS_TOKEN}
+  deploymentBucket:
+    name: ${self:service.name}
+package:
+  individually: false
+  exclude:
+    - package.json
+    - package-log.json
+    - node_modules/**
+functions:
+  data-pipeline-demo-raw:
+    handler: raw.lambda_handler
+    name: data-pipeline-demo-raw
+    memorySize: 128
+    timeout: 30
+    events:
+      - http:
+          path: data-pipeline-demo
+          method: post
+          cors: true
+  data-pipeline-demo-enriched:
+    handler: enriched.lambda_handler
+    name: data-pipeline-demo-enriched
+    memorySize: 128
+    timeout: 30
+    events:
+      - s3:
+          bucket: ${env:RAW_BUCKET}
+          event: s3:ObjectCreated:Put
+          rules:
+            - suffix: .json
+          existing: true
+plugins:
+  - serverless-python-requirements
+custom:
+  pythonRequirements:
+    dockerizePip: true

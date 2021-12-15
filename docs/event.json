@@ -1,0 +1,21 @@
+{
+    "update_id":920664170,
+    "message": {
+        "message_id":2,
+        "from": {
+            "id":<user-id>,
+            "is_bot":false,
+            "first_name":"Andr\u00e9",
+            "last_name":"Perez",
+            "username":"andremarcosperez"
+        },
+        "chat": {
+            "id":-790291911,
+            "title":"Ebac Cloud Demo \u2601\ufe0f",
+            "type":"group",
+            "all_members_are_administrators":true
+        },
+        "date":1639580077,
+        "text":"Ol\u00e1, mundo!"
+    }
+}
